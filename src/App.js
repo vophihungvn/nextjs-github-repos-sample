@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from "react";
+import { Router } from "@reach/router";
+import { Provider } from "react-redux";
+import { Spin } from "antd";
+import { initializeStore } from "./store/index";
+import "antd/dist/antd.css";
+import "./App.css";
+
+const store = initializeStore();
+
+const Home = lazy(() => import("./views/Home"));
+const RepoList = lazy(() => import("./views/RepoList"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Suspense fallback={<Spin />}>
+        <Router>
+          <Home path="/" />
+          <RepoList path="/repo-list" />
+        </Router>
+      </Suspense>
+    </Provider>
   );
 }
 
