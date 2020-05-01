@@ -8,7 +8,7 @@ const RepoDetail = (props) => {
   const dispatch = useDispatch();
   const { search = "" } = props.location;
   const [, repoName = ""] = search.split("=");
-  const { loading } = useSelector((store) => store.repo);
+  const { loading, detail } = useSelector((store) => store.repo);
 
   useEffect(() => {
     dispatch(actionCreator.getRepoDetail(repoName));
@@ -29,7 +29,11 @@ const RepoDetail = (props) => {
               </Button>
             </Row>
             <Row type="flex" style={{ marginTop: 24 }}>
-              <Col xs={24}></Col>
+              <Col xs={24}>
+                <pre>
+                  <code>{JSON.stringify(detail, null, 4)}</code>
+                </pre>
+              </Col>
             </Row>
           </Card>
         </Col>
