@@ -10,6 +10,7 @@ const store = initializeStore();
 
 const Home = lazy(() => import("./views/Home"));
 const RepoList = lazy(() => import("./views/RepoList"));
+const RepoDetail = lazy(() => import("./views/RepoDetail"));
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       <Suspense fallback={<Spin />}>
         <Router>
           <Home path="/" />
-          <RepoList path="/repo-list" />
+          <RepoList path="/repo-list/:username" />
+          <RepoDetail path="/repo-detail" />
         </Router>
       </Suspense>
     </Provider>

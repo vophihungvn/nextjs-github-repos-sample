@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Spin, Card, List, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { navigate } from "@reach/router";
+import { actionCreator } from "../../store/repo/repo.meta";
 
-const RepoList = (props) => {
+const RepoList = ({ username = "" }) => {
   const { repos = [], loading = false } = useSelector((store) => store.repo);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // const {}
+    dispatch(actionCreator.getRepos({ username }));
+  }, [dispatch, username]);
 
   return (
     <Spin spinning={loading}>
@@ -12,7 +18,7 @@ const RepoList = (props) => {
         justify="center"
         align="middle"
         type="flex"
-        style={{ minHeight: "100vh", background: "#ddd", padding: 18 }}
+        style={{ minHeight: "100vh", background: "#f5f5f5", padding: 18 }}
       >
         <Col xs={18}>
           <Card>
@@ -27,7 +33,18 @@ const RepoList = (props) => {
                   size="large"
                   bordered
                   dataSource={repos}
-                  renderItem={(item) => <List.Item>{item.name}</List.Item>}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        title={
+                          <a href={"/repo-detail?repo=" + item.full_name}>
+                            {item.name}
+                          </a>
+                        }
+                        description={item.description}
+                      />
+                    </List.Item>
+                  )}
                 />
               </Col>
             </Row>
